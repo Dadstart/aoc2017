@@ -1,4 +1,5 @@
 ﻿using System;
+using Utils;
 
 namespace Day1
 {
@@ -29,33 +30,16 @@ namespace Day1
 
 		static void Part1(string input)
 		{
-			WriteLineColor("Part 1", ConsoleColor.Yellow);
+			Write.ColorLine("Part 1", ConsoleColor.Yellow);
 
-			TestSolution(SolveCaptcha, "1122", 3);
-			TestSolution(SolveCaptcha, "1111", 4);
-			TestSolution(SolveCaptcha, "1234", 0);
-			TestSolution(SolveCaptcha, "91212129", 9);
+			Test.Verify(SolveCaptcha, "1122", 3);
+			Test.Verify(SolveCaptcha, "1111", 4);
+			Test.Verify(SolveCaptcha, "1234", 0);
+			Test.Verify(SolveCaptcha, "91212129", 9);
 			Console.WriteLine();
 
 			var answer = SolveCaptcha(input);
-			WriteLineColor($"Solution: {answer}", ConsoleColor.Cyan);
-		}
-
-		static int testCount;
-		static void TestSolution(Func<string, int> solver, string input, int expected)
-		{
-			int val = solver(input);
-			Console.WriteLine($"Test {++testCount}:");
-			if (expected == val)
-			{
-				WriteColor("Pass", ConsoleColor.Green);
-			}
-			else
-			{
-				WriteColor("Fail", ConsoleColor.Red);
-			}
-
-			Console.WriteLine($": Expected: {expected}; Actual: {val}");
+			Write.ColorLine($"Solution: {answer}", ConsoleColor.Cyan);
 		}
 
 		static int SolveCaptcha(string input)
@@ -66,23 +50,17 @@ namespace Day1
 			{
 				if (cur == prev)
 				{
-					sum += NumFromChar(cur);
+					sum += cur.ToDigitValue();
 				}
 				prev = cur;
 			}
 
 			if (prev == input[0])
 			{
-				sum += NumFromChar(prev);
+				sum += prev.ToDigitValue();
 			}
 
 			return sum;
-		}
-
-		static int NumFromChar(char c)
-		{
-			// no error checking. :-)
-			return c - '0';
 		}
 
 		static void Part2(string input)
@@ -101,15 +79,15 @@ namespace Day1
 			- 123123 produces 12.
 			- 12131415 produces 4.
 			*/
-			WriteLineColor("Part 2", ConsoleColor.Yellow);
-			TestSolution(SolvePart2, "1212", 6);
-			TestSolution(SolvePart2, "1221", 0);
-			TestSolution(SolvePart2, "123425", 4);
-			TestSolution(SolvePart2, "123123", 12);
-			TestSolution(SolvePart2, "12131415", 4);
+			Write.ColorLine("Part 2", ConsoleColor.Yellow);
+			Test.VerifyAnswer(SolvePart2, "1212", 6);
+			Test.VerifyAnswer(SolvePart2, "1221", 0);
+			Test.VerifyAnswer(SolvePart2, "123425", 4);
+			Test.VerifyAnswer(SolvePart2, "123123", 12);
+			Test.VerifyAnswer(SolvePart2, "12131415", 4);
 
 			var answer = SolvePart2(input);
-			WriteLineColor($"Solution: {answer}", ConsoleColor.Cyan);
+			Write.ColorLine($"Solution: {answer}", ConsoleColor.Cyan);
 
 		}
 
@@ -120,9 +98,9 @@ namespace Day1
 
 			for (int i = 0; i < input.Length; i++)
 			{
-				if (LookAhead(input, i, distance) == input[i])
+				if (input.CharAtCircular(i, distance) == input[i])
 				{
-					sum += NumFromChar(input[i]);
+					sum += input[i].ToDigitValue();
 				}
 			}
 
@@ -142,35 +120,5 @@ namespace Day1
 				return str[target];
 			}
 		}
-
-		static void WriteLineColor(string output, ConsoleColor? foreground, ConsoleColor? background = null)
-		{
-			WriteColor(output, foreground, background);
-			Console.WriteLine();
-		}
-		static void WriteColor(string output, ConsoleColor? foreground, ConsoleColor? background = null)
-		{
-			// save current values
-			var prevFore = Console.ForegroundColor;
-			var prevBack = Console.BackgroundColor;
-
-			// make changes
-			if (foreground.HasValue)
-			{
-				Console.ForegroundColor = foreground.Value;
-			}
-			if (background.HasValue)
-			{
-				Console.BackgroundColor = background.Value;
-			}
-
-			// write output
-			Console.Write(output);
-
-			// restore
-			Console.ForegroundColor = prevFore;
-			Console.BackgroundColor = prevBack;
-		}
-
 	}
 }
