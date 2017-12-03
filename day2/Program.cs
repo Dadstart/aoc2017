@@ -22,6 +22,10 @@ namespace Day2
 826	4028	4274	163	5303	4610	145	5779	157	4994	5053	186	5060	3082	2186	4882
 588	345	67	286	743	54	802	776	29	44	107	63	303	372	41	810
 128	2088	3422	111	3312	740	3024	1946	920	131	112	477	3386	2392	1108	2741";
+		const string Part2TestInput = @"5 9 2 8
+9 4 7 3
+3 8 6 5";
+		const int Part2TestAnswer = 9;
 		static void Main(string[] args)
 		{
 			/*
@@ -41,14 +45,21 @@ namespace Day2
 			In this example, the spreadsheet's checksum would be 8 + 4 + 6 = 18.
 			*/
 			var answer = CalculatChecksum(Input);
-			Console.WriteLine($"Solution: {answer}");
+			Console.WriteLine($"Part 1 Solution: {answer}");
+			Console.WriteLine();
+
+			Console.WriteLine("Part 2 Test...");
+			answer = Part2(Part2TestInput);
+			Console.WriteLine(answer == Part2TestAnswer);
+
+			answer = Part2(Input);
+			Console.WriteLine($"Part 2 Solution: {answer}");
 			Console.ReadLine();
 		}
 
 		static int CalculatChecksum(string input)
 		{
 			var total = 0;
-			var rows = new List<List<int>>();
 
 			using (var sb = new StringReader(Input))
 			{
@@ -60,7 +71,7 @@ namespace Day2
 						break;
 					}
 
-					var columnVals = line.Split('\t');
+					var columnVals = line.Split('\t', StringSplitOptions.RemoveEmptyEntries);
 					int min = int.MaxValue;
 					int max = int.MinValue;
 
@@ -78,6 +89,76 @@ namespace Day2
 					}
 
 					total += max - min;
+				}
+			}
+
+			return total;
+		}
+
+		static int Part2(string input)
+		{
+			/*
+			It sounds like the goal is to find the only two numbers in each row where one evenly divides the other - that is, where the result of the division operation is a whole number. They would like you to find those numbers on each line, divide them, and add up each line's result.
+
+			For example, given the following spreadsheet:
+
+			5 9 2 8
+			9 4 7 3
+			3 8 6 5
+			In the first row, the only two numbers that evenly divide are 8 and 2; the result of this division is 4.
+			In the second row, the two numbers are 9 and 3; the result is 3.
+			In the third row, the result is 2.
+			In this example, the sum of the results would be 4 + 3 + 2 = 9.
+
+			What is the sum of each row's result in your puzzle input?
+			*/
+
+			var total = 0;
+
+			using (var sb = new StringReader(input))
+			{
+				while (true)
+				{
+					var line = sb.ReadLine();
+					if (line == null)
+					{
+						break;
+					}
+
+					var vals = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+					int rem = 1;
+
+					var rowResult = 0;
+
+					for (int cur = 0; cur < vals.Length; cur++)
+					{
+						var val1 = int.Parse(vals[cur]);
+
+						for (int next = cur + 1; next < vals.Length; next++)
+						{
+							var val2 = int.Parse(vals[next]);
+							var div = Math.DivRem(val1, val2, out rem);
+							if (rem == 0)
+							{
+								rowResult = div;
+								break;
+							}
+
+							div = Math.DivRem(val2, val1, out rem);
+							if (rem == 0)
+							{
+								rowResult = div;
+								break;
+							}
+
+						}
+
+						if (rowResult != 0)
+						{
+							total += rowResult;
+							break;
+						}
+					}
 				}
 			}
 
