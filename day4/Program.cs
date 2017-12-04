@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Utils;
 
 namespace Day4
@@ -10,8 +12,6 @@ namespace Day4
 			Write.ColorLine("Day 4: Part 1", ConsoleColor.Cyan);
 			Console.WriteLine("-------", ConsoleColor.Cyan);
 			Part1(Input.Value);
-
-			Console.ReadLine();
         }
 
 		private static void Part1(string input)
@@ -34,7 +34,44 @@ namespace Day4
 			How many passphrases are valid?
 			*/
 
-			throw new NotImplementedException();
+			var valid = 0;
+
+			using (var sr = new StringReader(input))
+			{
+
+				while (true)
+				{
+					var line = sr.ReadLine();
+					if (line == null)
+					{
+						break;
+					}
+
+					bool hasInvalid = false;
+					var words = line.Split(' ');
+					var wordDictionary = new Dictionary<string, bool>(words.Length, StringComparer.Ordinal);
+					foreach (string word in words)
+					{
+						if (wordDictionary.ContainsKey(word))
+						{
+							hasInvalid = true;
+							break;
+						}
+
+						wordDictionary.Add(word, true);
+					}
+
+					if (!hasInvalid)
+						valid++;
+				}
+			}
+
+			Console.WriteLine($"Answer: {valid}");
+		}
+
+		static void Part2(string input)
+		{
+
 		}
 	}
 }
