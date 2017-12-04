@@ -96,9 +96,67 @@ namespace Day4
 			  - any of these words can be rearranged to form any other word.
 
 			Under this new system policy, how many passphrases are valid?
-
-			Although it hasn't changed, you can still get your puzzle input.
 			*/
+
+			var valid = 0;
+
+			using (var sr = new StringReader(input))
+			{
+
+				while (true)
+				{
+					var line = sr.ReadLine();
+					if (line == null)
+					{
+						break;
+					}
+
+					bool hasInvalid = false;
+					var words = line.Split(' ');
+					var wordDictionary = new Dictionary<string, bool>(words.Length, StringComparer.Ordinal);
+					foreach (string word in words)
+					{
+						if (wordDictionary.ContainsKey(word))
+						{
+							hasInvalid = true;
+							break;
+						}
+
+						var sorted = SortLetters(word);
+						if (wordDictionary.ContainsKey(sorted))
+						{
+							hasInvalid = true;
+							break;
+						}
+
+						wordDictionary.Add(sorted, true);
+					}
+
+					if (!hasInvalid)
+						valid++;
+				}
+			}
+
+			Console.WriteLine($"Answer: {valid}");
+		}
+
+		static string SortLetters(string letters)
+		{
+			var array = letters.ToCharArray();
+			for (int i = 0; i < array.Length; i++)
+			{
+				for (int j = 0; j < array.Length - 1; j++)
+				{
+					if (array[j] > array[j+1])
+					{
+						var temp = array[j];
+						array[j] = array[j + 1];
+						array[j + 1] = temp;
+					}
+				}
+			}
+
+			return new string(array);
 		}
 	}
 }
