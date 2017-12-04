@@ -31,7 +31,8 @@ namespace Day4
 
 			The system's full passphrase list is available as your puzzle input.
 			
-			How many passphrases are valid?			 */
+			How many passphrases are valid?
+			*/
 
 			throw new NotImplementedException();
 		}
