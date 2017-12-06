@@ -5,10 +5,10 @@ using Utils;
 
 namespace Day5
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
+	class Program
+	{
+		static void Main(string[] args)
+		{
 			Write.ColorLine("Day 5: Part 1", ConsoleColor.Cyan);
 			Console.WriteLine("-------", ConsoleColor.Cyan);
 			Part1(Input.Value);
@@ -66,22 +66,21 @@ namespace Day5
 			How many steps does it take to reach the exit?
 			*/
 
-			List<int> list = new List<int>();
-			using (var sr = new StringReader(input))
+			Test.Verify<string, int>(Traverse, input, 5);
+
+			using (var list = new DelayParsedStringArray(input))
 			{
-				while (true)
-				{
-					var line = sr.ReadLine();
-					if (line == null)
-					{
-						break;
-					}
 
-					list.Add(int.Parse(line));
-				}
 			}
+		}
 
-			return list;
+		private static int Traverse(string input)
+		{
+			using (var offsets = new DelayParsedStringArray(input))
+			{
+				int i;
+
+			}
 		}
 
 		private static IList<int> ParseInput(string input)
