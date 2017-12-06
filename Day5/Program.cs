@@ -14,7 +14,7 @@ namespace Day5
 			Part1();
 			Console.WriteLine();
 
-			Write.ColorLine("Day 5: Part 1", ConsoleColor.Cyan);
+			Write.ColorLine("Day 5: Part 2", ConsoleColor.Cyan);
 			Console.WriteLine("-------", ConsoleColor.Cyan);
 			Part2(Input.Value);
 			Console.ReadLine();
