@@ -1092,5 +1092,8 @@ namespace Day5
 -3";
 
 		public const int Part1Test1Answer = 5;
+
+		public const string Part2TestInput = Part1Test1Input;
+		public const int Part2Test1Answer = 10;
     }
 }

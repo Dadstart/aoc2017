@@ -66,13 +66,19 @@ namespace Day5
 			How many steps does it take to reach the exit?
 			*/
 
-			Test.Verify<string, int>(Traverse, Input.Part1Test1Input, Input.Part1Test1Answer);
-			var result = Traverse(Input.Value);
+			var args = new TraverseArgs();
+			Test.Verify<string, TraverseArgs, int>(Traverse, Input.Part1Test1Input, args, Input.Part1Test1Answer);
+			var result = Traverse(Input.Value, args);
 			Write.ColorLine($"Result: {result}", ConsoleColor.Cyan);
-
+			Console.WriteLine();
 		}
 
-		private static int Traverse(string input)
+		class TraverseArgs
+		{
+			public int Max = int.MaxValue;
+		}
+
+		private static int Traverse(string input, TraverseArgs args)
 		{
 			using (var offsets = new DelayParsedStringArray(input))
 			{
@@ -85,7 +91,18 @@ namespace Day5
 						return count;
 					}
 
-					offsets.SetItem(i, offset + 1);
+					int newOffset;
+
+					if (offset >= args.Max)
+					{
+						newOffset = offset - 1;
+					}
+					else
+					{
+						newOffset = offset + 1;
+					}
+
+					offsets.SetItem(i, newOffset);
 					i += offset;
 					count++;
 				}
@@ -114,6 +131,23 @@ namespace Day5
 
 		private static void Part2(string value)
 		{
+			/*
+			Now, the jumps are even stranger: after each jump, if the offset
+			was three or more, instead decrease it by 1. Otherwise, increase
+			it by 1 as before.
+
+			Using this rule with the above example, the process now takes 
+			10 steps, and the offset values after finding the exit are
+			left as 2 3 2 3 -1.
+
+			How many steps does it now take to reach the exit?
+			*/
+			var args = new TraverseArgs() { Max = 3 };
+
+			Test.Verify<string, TraverseArgs, int>(Traverse, Input.Part2TestInput, args, Input.Part2Test1Answer);
+			var result = Traverse(Input.Value, args);
+			Write.ColorLine($"Result: {result}", ConsoleColor.Cyan);
+			Console.WriteLine();
 		}
 	}
 }
