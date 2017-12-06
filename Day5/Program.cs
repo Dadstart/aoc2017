@@ -11,7 +11,7 @@ namespace Day5
 		{
 			Write.ColorLine("Day 5: Part 1", ConsoleColor.Cyan);
 			Console.WriteLine("-------", ConsoleColor.Cyan);
-			Part1(Input.Value);
+			Part1();
 			Console.WriteLine();
 
 			Write.ColorLine("Day 5: Part 1", ConsoleColor.Cyan);
@@ -20,7 +20,7 @@ namespace Day5
 			Console.ReadLine();
 		}
 
-		private static void Part1(string input)
+		private static void Part1()
 		{
 			/*
 			The message includes a list of the offsets for each jump. Jumps are
@@ -66,20 +66,29 @@ namespace Day5
 			How many steps does it take to reach the exit?
 			*/
 
-			Test.Verify<string, int>(Traverse, input, 5);
+			Test.Verify<string, int>(Traverse, Input.Part1Test1Input, Input.Part1Test1Answer);
+			var result = Traverse(Input.Value);
+			Write.ColorLine($"Result: {result}", ConsoleColor.Cyan);
 
-			using (var list = new DelayParsedStringArray(input))
-			{
-
-			}
 		}
 
 		private static int Traverse(string input)
 		{
 			using (var offsets = new DelayParsedStringArray(input))
 			{
-				int i;
+				int i = 0;
+				int count = 0;
+				while (true)
+				{
+					if (!offsets.GetItem(i, out int offset))
+					{
+						return count;
+					}
 
+					offsets.SetItem(i, offset + 1);
+					i += offset;
+					count++;
+				}
 			}
 		}
 

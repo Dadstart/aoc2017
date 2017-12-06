@@ -1083,5 +1083,14 @@ namespace Day5
 -156
 -332
 -193";
+
+		public const string Part1Test1Input =
+@"0
+3
+0
+1
+-3";
+
+		public const int Part1Test1Answer = 5;
     }
 }
