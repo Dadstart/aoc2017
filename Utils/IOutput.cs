@@ -9,7 +9,7 @@ namespace Utils
 		void EndDay();
 		void BeginDay(int day);
 		void BeginPart(int part);
-		void EndPart(bool success, string result);
+		void EndPart(object result);
 		void BeginTest(int test);
 		void EndTest(bool success, object result, object expected);
 	}

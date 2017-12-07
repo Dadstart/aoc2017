@@ -15,7 +15,7 @@ namespace Runner
 
 		public void BeginPart(int part)
 		{
-			Write.Color($"Part {part}", ConsoleColor.Cyan);
+			Write.ColorLine($"Part {part}", ConsoleColor.Cyan);
 		}
 
 		public void BeginTest(int test)
@@ -30,17 +30,8 @@ namespace Runner
 			Console.ReadKey(true /*intercept*/);
 		}
 
-		public void EndPart(bool success, string result)
+		public void EndPart(object result)
 		{
-			if (success)
-			{
-				Write.ColorLine("Success", ConsoleColor.Green);
-			}
-			else
-			{
-				Write.ColorLine("Failed", ConsoleColor.Red);
-			}
-
 			Console.WriteLine($"Result: {result}");
 		}
 

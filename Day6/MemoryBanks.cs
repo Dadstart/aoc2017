@@ -10,7 +10,7 @@ namespace Day6
 	{
 		private IList<int> store;
 		private int largestBank;
-		private int largestBankVal = int.MinValue;
+		private HashSet<string> previousStores = new HashSet<string>();
 
 		public MemoryBanks(string banks)
 		{
@@ -21,11 +21,11 @@ namespace Day6
 			{
 				var bankVal = int.Parse(values[i]);
 				store.Add(bankVal);
-				UpdateLargest(i);
 			}
+			UpdateLargest();
 		}
 
-		public void Distribute()
+		public int Distribute()
 		{
 			/*
 			In each cycle, it finds the
@@ -36,41 +36,53 @@ namespace Day6
 			this until it runs out of blocks; if it reaches the last memory bank, it
 			wraps around to the first one.
  			 */
-			Debug.Assert(largestBankVal == store.Max());
-			int blocks = largestBankVal;
-			store[largestBank] = 0;
-			var currentBank = largestBank;
-			while (blocks > 0)
+			int count = 0;
+			do
 			{
-				currentBank = GetNextIndex(currentBank);
-				store[currentBank] += 1;
-				UpdateLargest(currentBank);
-			}
+				count++;
+				previousStores.Add(this.ToString());
+				int blocks = store[largestBank];
+				Debug.Assert(blocks == store.Max());
+				store[largestBank] = 0;
+				var currentBank = largestBank;
+				while (blocks-- > 0)
+				{
+					currentBank = GetNextIndex(currentBank);
+					store[currentBank] += 1;
+				}
+
+				UpdateLargest();
+			} while (!previousStores.Contains(this.ToString()));
+			return count;
 		}
 
-		void UpdateLargest(int bank)
+		void UpdateLargest()
 		{
-			var val = store[bank];
-			if (val > largestBankVal)
+			largestBank = 0;
+			var largestVal = int.MinValue;
+			for (var i = 0; i < store.Count; i++)
 			{
-				largestBank = bank;
-				largestBankVal = val;
+				var val = store[i];
+				if (val > largestVal)
+				{
+					largestBank = i;
+					largestVal = val;
+				}
 			}
 		}
 
 		int GetNextIndex(int index)
 		{
-			if (++index > store.Count)
+			if (++index >= store.Count)
 			{
 				index = 0;
 			}
 			return index;
 		}
 
-		public bool Equals(string banks)
+		public override string ToString()
 		{
-			var currentBanks = string.Join("\t", banks);
-			return string.Equals(banks, currentBanks, StringComparison.Ordinal);
+			return string.Join(" ", store);
 		}
 	}
 }

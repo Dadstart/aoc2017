@@ -61,24 +61,17 @@ namespace Day6
 
 			output.BeginPart(1);
 			Test.Verify<string, int>(output, SolvePart1, Input.TestPart1Input, Input.TestPart1Answer);
-
+			int count = SolvePart1(Input.Value);
+			output.EndPart(count);
 
 			return true;
 		}
 
 		private int SolvePart1(string input)
 		{
-			var count = 0;
 			var banks = new MemoryBanks(input);
-
-			do
-			{
-				count++;
-				banks.Distribute();
-			} while (!banks.Equals(input));
-
-
-			throw new NotImplementedException();
+			var count = banks.Distribute();
+			return count;
 		}
 
 		public bool Part2(IOutput output)
