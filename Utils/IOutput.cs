@@ -11,6 +11,6 @@ namespace Utils
 		void BeginPart(int part);
 		void EndPart(bool success, string result);
 		void BeginTest(int test);
-		void EndTest(bool success, string result, string expected);
+		void EndTest(bool success, object result, object expected);
 	}
 }

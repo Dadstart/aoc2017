@@ -44,7 +44,7 @@ namespace Runner
 			Console.WriteLine($"Result: {result}");
 		}
 
-		public void EndTest(bool success, string result, string expected)
+		public void EndTest(bool success, object result, object expected)
 		{
 			if (success)
 			{

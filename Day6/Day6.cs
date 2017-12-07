@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Utils;
 
 namespace Day6
@@ -55,6 +58,26 @@ namespace Day6
 			cycles must be completed before a configuration is produced that has been seen
 			before?
 			*/
+
+			output.BeginPart(1);
+			Test.Verify<string, int>(output, SolvePart1, Input.TestPart1Input, Input.TestPart1Answer);
+
+
+			return true;
+		}
+
+		private int SolvePart1(string input)
+		{
+			var count = 0;
+			var banks = new MemoryBanks(input);
+
+			do
+			{
+				count++;
+				banks.Distribute();
+			} while (!banks.Equals(input));
+
+
 			throw new NotImplementedException();
 		}
 

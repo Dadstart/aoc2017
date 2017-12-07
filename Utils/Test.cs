@@ -6,52 +6,18 @@ namespace Utils
     {
 		static int testCount;
 
-		public static void VerifyAnswer(Func<string, int> solver, string input, int expected)
+		public static void Verify<TInput, TOutput>(IOutput output, Func<TInput, TOutput> solver, TInput input, TOutput expected)
 		{
-			int val = solver(input);
-			Console.WriteLine($"Test {++testCount}:");
-			if (expected == val)
-			{
-				Write.Color("Pass", ConsoleColor.Green);
-			}
-			else
-			{
-				Write.Color("Fail", ConsoleColor.Red);
-			}
-
-			Console.WriteLine($": Expected: {expected}; Actual: {val}");
-		}
-
-		public static void Verify<TInput, TOutput>(Func<TInput, TOutput> solver, TInput input, TOutput expected)
-		{
+			output.BeginTest(++testCount);
 			TOutput val = solver(input);
-			Console.WriteLine($"Test {++testCount}:");
-			if (expected.Equals(val))
-			{
-				Write.Color("Pass", ConsoleColor.Green);
-			}
-			else
-			{
-				Write.Color("Fail", ConsoleColor.Red);
-			}
-
-			Console.WriteLine($": Expected: {expected}; Actual: {val}");
+			output.EndTest(expected.Equals(val), val, expected);
 		}
 
-		public static void Verify<TInput, TInputArgs, TOutput>(Func<TInput, TInputArgs, TOutput> solver, TInput input, TInputArgs inputArgs, TOutput expected)
+		public static void Verify<TInput, TInputArgs, TOutput>(IOutput output, Func<TInput, TInputArgs, TOutput> solver, TInput input, TInputArgs inputArgs, TOutput expected)
 		{
+			output.BeginTest(++testCount);
 			TOutput val = solver(input, inputArgs);
-			Console.WriteLine($"Test {++testCount}:");
-			if (expected.Equals(val))
-			{
-				Write.Color("Pass", ConsoleColor.Green);
-			}
-			else
-			{
-				Write.Color("Fail", ConsoleColor.Red);
-			}
-
-			Console.WriteLine($": Expected: {expected}; Actual: {val}");
+			output.EndTest(expected.Equals(val), val, expected);
 		}
 	}
 }
