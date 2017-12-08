@@ -84,7 +84,7 @@ namespace Day7
 			correct. What is the name of the bottom program?
  			 */
 
-			// read in data
+			var tower = new ProgramTower();
 			using (var sr = new StringReader(input))
 			{
 				while (true)
@@ -95,11 +95,27 @@ namespace Day7
 						break;
 					}
 
+					var match = ProgramRegex.Match(line);
+					if (!match.Success)
+					{
+						throw new Exception("Regex failed; bad input");
+					}
+
+					var p = new Program();
+					p.Name = match.Groups["name"].Value;
+					p.Weight = int.Parse(match.Groups["weight"].Value);
+					var children = match.Groups["children"];
+					foreach (var child in match.Groups["children"].Captures)
+					{
+						p.AddChild(child.ToString());
+					}
+					tower.Add(p);
 
 				}
 			}
 
-				return null;
+			var root = tower.Root;
+			return root.Name;
 		}
 
 		public bool Part2(IOutput output)

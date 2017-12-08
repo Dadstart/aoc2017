@@ -7,7 +7,7 @@ namespace Runner
     {
         static void Main(string[] args)
         {
-			var day = new Day6.Day6();
+			var day = new Day7.Day7();
 			var output = new ConsoleOutput();
 			output.BeginDay(6);
 
