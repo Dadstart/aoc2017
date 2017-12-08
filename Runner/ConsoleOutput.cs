@@ -9,7 +9,9 @@ namespace Runner
 	{
 		public void BeginDay(int day)
 		{
-			Write.ColorLine($"Day {day}", ConsoleColor.Blue, ConsoleColor.Gray);
+			Write.ColorLine(string.Empty, ConsoleColor.Blue, ConsoleColor.Gray, true /*fillLine*/);
+			Write.ColorLine($"Day {day}", ConsoleColor.Blue, ConsoleColor.Gray, true /*fillLine*/);
+			Write.ColorLine(string.Empty, ConsoleColor.Blue, ConsoleColor.Gray, true /*fillLine*/);
 			Console.WriteLine();
 		}
 
@@ -26,7 +28,9 @@ namespace Runner
 		public void EndDay()
 		{
 			Console.WriteLine();
-			Console.WriteLine("Press any key to exit");
+			Write.ColorLine(string.Empty, ConsoleColor.DarkGreen, ConsoleColor.Gray, true /*fillLine*/);
+			Write.ColorLine("Press any key to exit", ConsoleColor.DarkGreen, ConsoleColor.Gray, true /*fillLine*/);
+			Write.ColorLine(string.Empty, ConsoleColor.DarkGreen, ConsoleColor.Gray, true /*fillLine*/);
 			Console.ReadKey(true /*intercept*/);
 		}
 

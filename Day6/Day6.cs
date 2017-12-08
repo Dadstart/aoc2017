@@ -76,7 +76,30 @@ namespace Day6
 
 		public bool Part2(IOutput output)
 		{
-			throw new NotImplementedException();
+			/*
+			Out of curiosity, the debugger would also like to know the size of the
+			loop: starting from a state that has already been seen, how many block
+			redistribution cycles must be performed before that same state is seen
+			again?
+
+			In the example above, 2 4 1 2 is seen again after four cycles, and so
+			the answer in that example would be 4.
+
+			How many cycles are in the infinite loop that arises from the
+			configuration in your puzzle input?
+ 			 */
+			output.BeginPart(2);
+			Test.Verify<string, int>(output, SolvePart2, Input.TestPart2Input, Input.TestPart2Answer);
+			int count = SolvePart2(Input.Value);
+			output.EndPart(count);
+			return true;
+		}
+
+		private int SolvePart2(string input)
+		{
+			var banks = new MemoryBanks(input);
+			var count = banks.DetectLoop();
+			return count;
 		}
 	}
 }

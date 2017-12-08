@@ -11,6 +11,7 @@ namespace Day6
 		private IList<int> store;
 		private int largestBank;
 		private HashSet<string> previousStores = new HashSet<string>();
+		private List<string> storeHistory = new List<string>();
 
 		public MemoryBanks(string banks)
 		{
@@ -40,20 +41,59 @@ namespace Day6
 			do
 			{
 				count++;
-				previousStores.Add(this.ToString());
-				int blocks = store[largestBank];
-				Debug.Assert(blocks == store.Max());
-				store[largestBank] = 0;
-				var currentBank = largestBank;
-				while (blocks-- > 0)
-				{
-					currentBank = GetNextIndex(currentBank);
-					store[currentBank] += 1;
-				}
-
-				UpdateLargest();
+				DistributeIteration();
 			} while (!previousStores.Contains(this.ToString()));
 			return count;
+		}
+
+		private void DistributeIteration()
+		{
+			var current = this.ToString();
+			storeHistory.Add(current);
+			previousStores.Add(current);
+			//			lastHit[current] = storeHistory.Count - 1;
+
+			int blocks = store[largestBank];
+			Debug.Assert(blocks == store.Max());
+			store[largestBank] = 0;
+			var currentBank = largestBank;
+			while (blocks-- > 0)
+			{
+				currentBank = GetNextIndex(currentBank);
+				store[currentBank] += 1;
+			}
+
+			UpdateLargest();
+		}
+
+		private int LocateLoop()
+		{
+			int iSlow = -1, iFast = -1;
+			do
+			{
+				DistributeIteration();
+				DistributeIteration();
+				iSlow += 1;
+				iFast += 2;
+			} while (!string.Equals(storeHistory[iSlow], storeHistory[iFast], StringComparison.Ordinal));
+
+			return iSlow;
+		}
+
+		public int DetectLoop()
+		{
+			int loopPos = LocateLoop();
+			int i = loopPos;
+			int distance = 0;
+			do
+			{
+				Distribute();
+				i++;
+				distance++;
+			}
+			while (!string.Equals(storeHistory[loopPos], storeHistory[i]));
+
+			return distance;
 		}
 
 		void UpdateLargest()
@@ -71,13 +111,9 @@ namespace Day6
 			}
 		}
 
-		int GetNextIndex(int index)
+		int GetNextIndex(int index, int offset = 1)
 		{
-			if (++index >= store.Count)
-			{
-				index = 0;
-			}
-			return index;
+			return (index + offset) % store.Count;
 		}
 
 		public override string ToString()
