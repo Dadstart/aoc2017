@@ -1103,5 +1103,8 @@ cntj (57)";
 
 		public const string Part1TestAnswer = "tknk";
 
+		public const string Part2TestInput = Part1TestInput;
+		public const int Part2TestAnswer = 60;
+
 	}
 }
