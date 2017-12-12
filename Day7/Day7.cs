@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Utils;
 
@@ -84,6 +86,14 @@ namespace Day7
 			correct. What is the name of the bottom program?
  			 */
 
+			ProgramTower tower = ParseTower(input);
+
+			var root = tower.Root;
+			return root.Name;
+		}
+
+		private static ProgramTower ParseTower(string input)
+		{
 			var tower = new ProgramTower();
 			using (var sr = new StringReader(input))
 			{
@@ -101,9 +111,8 @@ namespace Day7
 						throw new Exception("Regex failed; bad input");
 					}
 
-					var p = new Program();
-					p.Name = match.Groups["name"].Value;
-					p.Weight = int.Parse(match.Groups["weight"].Value);
+					var p = new Program(tower, match.Groups["name"].Value, int.Parse(match.Groups["weight"].Value));
+
 					var children = match.Groups["children"];
 					foreach (var child in match.Groups["children"].Captures)
 					{
@@ -114,8 +123,7 @@ namespace Day7
 				}
 			}
 
-			var root = tower.Root;
-			return root.Name;
+			return tower;
 		}
 
 		public bool Part2(IOutput output)
@@ -150,12 +158,82 @@ namespace Day7
 			Given that exactly one program is the wrong weight, what would its weight need
 			to be to balance the entire tower?
 			 */
+
+			output.BeginPart(2);
+			Test.Verify<string, int>(output, SolvePart2, Input.Part2TestInput, Input.Part2TestAnswer);
+			var bottom = SolvePart2(Input.Value);
+			output.EndPart(bottom);
+
 			return false;
 		}
 
-		string SolvePart2(string input)
+		int SolvePart2(string input)
 		{
-			return null;
+			var tower = ParseTower(input);
+			var lastParent = tower.Root;
+			var child = tower.Root;
+			var expectedWeight = -1;
+			while (true)
+			{
+				var badChild = GetChildWithWrongWeight(tower, child, out int badChildExpectedWeight);
+				if (badChild == null)
+				{
+					break;
+				}
+				else
+				{
+					lastParent = child;
+					child = badChild;
+					expectedWeight = badChildExpectedWeight;
+				}
+			}
+
+			var delta = expectedWeight - child.TotalWeight();
+			return child.Weight + delta;
+		}
+
+		Program GetChildWithWrongWeight(ProgramTower tower, Program parent, out int expectedWeight)
+		{
+			expectedWeight = -1;
+
+			if (parent.Children == null)
+				return null;
+
+			var children = parent.GetChildren();
+
+			children.Sort(CompareWeight);
+
+			if (children[0].TotalWeight() == children[1].TotalWeight())
+			{
+				expectedWeight = children[0].TotalWeight();
+			}
+			else if (children[children.Count - 1].TotalWeight() == children[children.Count - 2].TotalWeight())
+			{
+				expectedWeight = children[children.Count - 1].TotalWeight();
+			}
+			else
+			{
+				throw new Exception("what?");
+			}
+
+			Program childWrongWeight = null;
+			foreach (var child in children)
+			{
+				if (child.TotalWeight() != expectedWeight)
+				{
+					childWrongWeight = child;
+					break;
+				}
+			}
+
+			return childWrongWeight;
+		}
+
+		int CompareWeight(Program left, Program right)
+		{
+			var lWeight = left.TotalWeight();
+			var rWeight = right.TotalWeight();
+			return lWeight - rWeight;
 		}
 	}
 }
