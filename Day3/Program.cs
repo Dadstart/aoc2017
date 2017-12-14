@@ -41,10 +41,11 @@ namespace Day3
 			How many steps are required to carry the data from the square identified in
 			your puzzle input all the way to the access port?
  			*/
-			Test.Verify<string, int>(Part1Calc, "1", 0);
-			Test.Verify<string, int>(Part1Calc, "12", 3);
-			Test.Verify<string, int>(Part1Calc, "23", 2);
-			Test.Verify<string, int>(Part1Calc, "1024", 31);
+			var output = new NullOutput();
+			Test.Verify<string, int>(output, Part1Calc, "1", 0);
+			Test.Verify<string, int>(output, Part1Calc, "12", 3);
+			Test.Verify<string, int>(output, Part1Calc, "23", 2);
+			Test.Verify<string, int>(output, Part1Calc, "1024", 31);
 			var answer = Part1Calc(Input);
 			Console.WriteLine(answer);
 		}

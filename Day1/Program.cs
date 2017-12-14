@@ -32,10 +32,11 @@ namespace Day1
 		{
 			Write.ColorLine("Part 1", ConsoleColor.Yellow);
 
-			Test.Verify(SolveCaptcha, "1122", 3);
-			Test.Verify(SolveCaptcha, "1111", 4);
-			Test.Verify(SolveCaptcha, "1234", 0);
-			Test.Verify(SolveCaptcha, "91212129", 9);
+			var output = new NullOutput();
+			Test.Verify(output, SolveCaptcha, "1122", 3);
+			Test.Verify(output, SolveCaptcha, "1111", 4);
+			Test.Verify(output, SolveCaptcha, "1234", 0);
+			Test.Verify(output, SolveCaptcha, "91212129", 9);
 			Console.WriteLine();
 
 			var answer = SolveCaptcha(input);
@@ -80,11 +81,12 @@ namespace Day1
 			- 12131415 produces 4.
 			*/
 			Write.ColorLine("Part 2", ConsoleColor.Yellow);
-			Test.VerifyAnswer(SolvePart2, "1212", 6);
-			Test.VerifyAnswer(SolvePart2, "1221", 0);
-			Test.VerifyAnswer(SolvePart2, "123425", 4);
-			Test.VerifyAnswer(SolvePart2, "123123", 12);
-			Test.VerifyAnswer(SolvePart2, "12131415", 4);
+			var output = new NullOutput();
+			Test.Verify<string, int>(output, SolvePart2, "1212", 6);
+			Test.Verify<string, int>(output, SolvePart2, "1221", 0);
+			Test.Verify<string, int>(output, SolvePart2, "123425", 4);
+			Test.Verify<string, int>(output, SolvePart2, "123123", 12);
+			Test.Verify<string, int>(output, SolvePart2, "12131415", 4);
 
 			var answer = SolvePart2(input);
 			Write.ColorLine($"Solution: {answer}", ConsoleColor.Cyan);

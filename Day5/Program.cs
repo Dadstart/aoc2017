@@ -67,7 +67,8 @@ namespace Day5
 			*/
 
 			var args = new TraverseArgs();
-			Test.Verify<string, TraverseArgs, int>(Traverse, Input.Part1Test1Input, args, Input.Part1Test1Answer);
+			var output = new NullOutput();
+			Test.Verify<string, TraverseArgs, int>(output, Traverse, Input.Part1Test1Input, args, Input.Part1Test1Answer);
 			var result = Traverse(Input.Value, args);
 			Write.ColorLine($"Result: {result}", ConsoleColor.Cyan);
 			Console.WriteLine();
@@ -144,7 +145,8 @@ namespace Day5
 			*/
 			var args = new TraverseArgs() { Max = 3 };
 
-			Test.Verify<string, TraverseArgs, int>(Traverse, Input.Part2TestInput, args, Input.Part2Test1Answer);
+			var output = new NullOutput();
+			Test.Verify<string, TraverseArgs, int>(output, Traverse, Input.Part2TestInput, args, Input.Part2Test1Answer);
 			var result = Traverse(Input.Value, args);
 			Write.ColorLine($"Result: {result}", ConsoleColor.Cyan);
 			Console.WriteLine();
