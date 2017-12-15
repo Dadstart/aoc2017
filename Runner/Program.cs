@@ -8,7 +8,7 @@ namespace Runner
 	{
 		static void Main(string[] args)
 		{
-			Solve(new Day13());
+			Solve(new NextDays.Day13.Day13());
 		}
 
 		static void Solve<TInput, TOutput> (INewDay<TInput, TOutput> day)

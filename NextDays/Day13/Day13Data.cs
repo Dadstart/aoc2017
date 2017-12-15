@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Utils;
 
-namespace NextDays
+namespace NextDays.Day13
 {
 	class Day13Data : Data<string, int>
 	{

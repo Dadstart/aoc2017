@@ -1,7 +1,7 @@
 ﻿using System;
 using Utils;
 
-namespace NextDays
+namespace NextDays.Day13
 {
 	public class Day13 : INewDay<string, int>
 	{
