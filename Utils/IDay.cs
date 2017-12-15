@@ -6,7 +6,7 @@ namespace Utils
 {
 	public interface IDay
 	{
-		bool Part1(IOutput output);
-		bool Part2(IOutput output);
+		void Part1(IOutput output);
+		void Part2(IOutput output);
 	}
 }

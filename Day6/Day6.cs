@@ -8,7 +8,7 @@ namespace Day6
 {
 	public class Day6 : IDay
 	{
-		public bool Part1(IOutput output)
+		public void Part1(IOutput output)
 		{
 			/*
 			In this area, there are sixteen memory banks; each memory bank can hold
@@ -63,8 +63,6 @@ namespace Day6
 			Test.Verify<string, int>(output, SolvePart1, Input.TestPart1Input, Input.TestPart1Answer);
 			int count = SolvePart1(Input.Value);
 			output.EndPart(count);
-
-			return true;
 		}
 
 		private int SolvePart1(string input)
@@ -74,7 +72,7 @@ namespace Day6
 			return count;
 		}
 
-		public bool Part2(IOutput output)
+		public void Part2(IOutput output)
 		{
 			/*
 			Out of curiosity, the debugger would also like to know the size of the
@@ -92,7 +90,6 @@ namespace Day6
 			Test.Verify<string, int>(output, SolvePart2, Input.TestPart2Input, Input.TestPart2Answer);
 			int count = SolvePart2(Input.Value);
 			output.EndPart(count);
-			return true;
 		}
 
 		private int SolvePart2(string input)

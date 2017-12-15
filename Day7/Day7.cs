@@ -9,13 +9,12 @@ namespace Day7
 {
 	public class Day7 : IDay
 	{
-		public bool Part1(IOutput output)
+		public void Part1(IOutput output)
 		{
 			output.BeginPart(1);
 			Test.Verify<string, string>(output, SolvePart1, Input.Part1TestInput, Input.Part1TestAnswer);
 			var bottom = SolvePart1(Input.Value);
 			output.EndPart(bottom);
-			return false;
 		}
 
 		static Regex ProgramRegex = new Regex(@"(?<name>\w+)\s+\((?<weight>\d+)\)(?:\s->\s(?:(?<children>\w+)[\s,]*)*)?");
@@ -126,7 +125,7 @@ namespace Day7
 			return tower;
 		}
 
-		public bool Part2(IOutput output)
+		public void Part2(IOutput output)
 		{
 			/*
 			The programs explain the situation: they can't get down. Rather, they could
@@ -163,8 +162,6 @@ namespace Day7
 			Test.Verify<string, int>(output, SolvePart2, Input.Part2TestInput, Input.Part2TestAnswer);
 			var bottom = SolvePart2(Input.Value);
 			output.EndPart(bottom);
-
-			return false;
 		}
 
 		int SolvePart2(string input)
