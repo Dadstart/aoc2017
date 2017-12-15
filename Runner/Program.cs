@@ -1,5 +1,6 @@
 ﻿using System;
 using Utils;
+using NextDays;
 
 namespace Runner
 {
@@ -7,6 +8,7 @@ namespace Runner
 	{
 		static void Main(string[] args)
 		{
+			Solve(new Day13());
 		}
 
 		static void Solve<TInput, TOutput> (INewDay<TInput, TOutput> day)
