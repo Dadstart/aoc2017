@@ -22,7 +22,7 @@ namespace Utils
 
 		protected void AddPart2TestCase(TInput input, TOutput output)
 		{
-			part1Tests.Add(new TestData<TInput, TOutput>(input, output));
+			part2Tests.Add(new TestData<TInput, TOutput>(input, output));
 		}
 	}
 }

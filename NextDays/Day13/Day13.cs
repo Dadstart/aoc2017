@@ -212,7 +212,7 @@ namespace NextDays.Day13
 				}
 				firewall.Iterate();
 			}
-			
+
 			return risk;
 		}
 
@@ -333,14 +333,44 @@ namespace NextDays.Day13
 			[S] [S]         [S]     [S]
 			[ ]             [ ]     [ ]
 							[ ]     [ ]
+
 			Because all smaller delays would get you caught, the fewest number of
 			picoseconds you would need to delay to get through safely is 10.
 
 			What is the fewest number of picoseconds that you need to delay the packet
 			to pass through the firewall without being caught?
  			 */
-			var firewall = Firewall.Parse(input);
-			throw new NotImplementedException();
+
+			// brute force
+			int delay = 0;
+			while (true)
+			{
+				var caught = false;
+				var firewall = Firewall.Parse(input);
+
+				firewall.Iterate(delay);
+
+				for (int depth = 0; depth <= firewall.MaxDepth; depth++)
+				{
+					var layer = firewall[depth];
+					if (layer?.ScannerPosition == 0)
+					{
+						// caught!
+						caught = true;
+						break;
+					}
+					firewall.Iterate();
+				}
+
+				if (!caught)
+				{
+					break;
+				}
+				delay++;
+				caught = false;
+			}
+
+			return delay;
 		}
 
 	}
