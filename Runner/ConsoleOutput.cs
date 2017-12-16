@@ -51,6 +51,7 @@ namespace Runner
 			}
 
 			Console.WriteLine($"Result: {result}; Expected: {expected}");
+			Console.WriteLine();
 		}
 	}
 }

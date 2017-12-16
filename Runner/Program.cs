@@ -17,9 +17,9 @@ namespace Runner
 			var data = day.Data;
 			output.BeginDay(day.Day);
 
-			output.BeginPart(1);
 
 			// part 1
+			output.BeginPart(1);
 
 			// test cases
 			foreach (var testCase in data.Part1Tests)
@@ -33,6 +33,7 @@ namespace Runner
 
 
 			// part 2
+			output.BeginPart(2);
 
 			// test cases
 			foreach (var testCase in data.Part2Tests)
@@ -41,7 +42,7 @@ namespace Runner
 			}
 
 			// actual problem
-			var result2 = day.SolvePart1(data.Input);
+			var result2 = day.SolvePart2(data.Input);
 			output.EndPart(result2);
 
 			output.EndDay();
