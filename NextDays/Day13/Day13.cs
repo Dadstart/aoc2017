@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Utils;
 
 namespace NextDays.Day13
@@ -199,12 +201,26 @@ namespace NextDays.Day13
 			Given the details of the firewall you've recorded, if you leave immediately, 
 			what is the severity of your whole trip?
  			 */
-			throw new NotImplementedException();
+			var firewall = Firewall.Parse(input);
+			var risk = 0;
+			for (int depth = 0; depth <= firewall.MaxDepth; depth++)
+			{
+				var layer = firewall[depth];
+				if (layer?.ScannerPosition == 0)
+				{
+					risk += depth * layer.Range;
+				}
+				firewall.Iterate();
+			}
+			
+			return risk;
 		}
 
 		public int SolvePart2(string input)
 		{
+			var firewall = Firewall.Parse(input);
 			throw new NotImplementedException();
 		}
+
 	}
 }
