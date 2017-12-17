@@ -343,7 +343,7 @@ namespace NextDays.Day13
 
 			// brute force
 			int delay = 0;
-			while (true)
+			while (false)
 			{
 				var caught = false;
 				var firewall = Firewall.Parse(input);
@@ -366,11 +366,90 @@ namespace NextDays.Day13
 				{
 					break;
 				}
-				delay++;
+
+				// delay time works, so wait another delay cycle will also work
+				delay += delay;
 				caught = false;
 			}
 
+			delay = Part2Attempt2(Firewall.Parse(input));
 			return delay;
+		}
+
+		int Part2Attempt2(Firewall firewall)
+		{
+			var delay = 0;
+			var depth = 0;
+			var lastGoodDelay = 1;
+
+			while (depth <= firewall.MaxDepth)
+			{
+				var layer = firewall[depth];
+				PrintFirewall(firewall, depth);
+				if (layer?.ScannerPosition == 0)
+				{
+					// caught!
+
+					// backup (unless we're at the start)
+					if (depth > 0)
+					{
+						firewall.Iterate(-1);
+					}
+
+					// increase delay linearly
+					delay += lastGoodDelay;
+
+					// now try again :-)
+					firewall.Iterate(delay);
+				}
+				else
+				{
+					// we know this is a good delay interval at this depth
+					lastGoodDelay = delay;
+
+					// move on
+					depth++;
+					firewall.Iterate();
+				}
+			}
+
+			return delay;
+		}
+
+		void PrintFirewall(Firewall firewall, int depth)
+		{
+			int topLine = Console.CursorTop;
+			for (int l = 0; l <= firewall.MaxDepth; l++)
+			{
+				var layer = firewall[l];
+
+				var xLeft = l * 4;
+				Console.SetCursorPosition(xLeft, topLine);
+				Write.Color($" {l} ", ConsoleColor.Yellow);
+
+				var line = topLine + 1;
+				Console.SetCursorPosition(xLeft, line);
+				Console.Write("[ ]");
+				if (depth == l)
+				{
+					Console.SetCursorPosition(xLeft + 1, line);
+					Write.Color("X", layer?.ScannerPosition == 0 ? ConsoleColor.Red : ConsoleColor.Yellow);
+				}
+
+				for (int p = 1; p < layer?.Range; p++)
+				{
+					line += p;
+					Console.SetCursorPosition(xLeft, line);
+					Console.Write("[ ]");
+					if (p == layer?.ScannerPosition)
+					{
+						Console.SetCursorPosition(xLeft + 1, line);
+						Write.Color("S", ConsoleColor.Cyan);
+					}
+				}
+				Console.SetCursorPosition(xLeft, topLine + 1);
+				Console.Write("");
+			}
 		}
 
 	}

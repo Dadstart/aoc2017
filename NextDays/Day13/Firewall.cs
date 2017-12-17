@@ -59,6 +59,17 @@ namespace NextDays.Day13
 			return firewall;
 		}
 
+		public void IterateBack(int count = -1)
+		{
+			while (count++ < 0)
+			{
+				foreach (var layer in layers)
+				{
+					layer.Value.Move(-1);
+				}
+			}
+		}
+
 		public void Iterate(int count = 1)
 		{
 			while (count-- > 0)

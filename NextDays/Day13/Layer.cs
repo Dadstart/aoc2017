@@ -16,9 +16,9 @@ namespace NextDays.Day13
 			Range = range;
 		}
 
-		public void Move()
+		public void Move(int stepSize = 1)
 		{
-			var step = ScannerPosition + stepDirection;
+			var step = ScannerPosition + stepDirection * stepSize;
 			if (step < 0)
 			{
 				stepDirection = 1;
